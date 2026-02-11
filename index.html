@@ -475,6 +475,17 @@
     }
     </script>
 
+    <!-- 环境变量注入脚本（必须在 config.js 之前加载） -->
+    <script>
+        // 创建全局环境变量对象
+        window.__ENV__ = window.__ENV__ || {};
+
+        // 注入服务器端环境变量 (将由服务器端替换)
+        // PASSWORD 变量将在这里被服务器端注入
+        window.__ENV__.PASSWORD = "{{PASSWORD}}";
+        window.__ENV__.TMDB_API_KEY = "{{TMDB_API_KEY}}";
+    </script>
+
     <!-- 引入纯 JS sha256（HTTP 下依然可用） -->
     <script src="libs/sha256.min.js"></script>
     <script>
@@ -494,16 +505,7 @@
     <!-- PWA 注册 -->
     <script src="js/pwa-register.js"></script>
 
-    <!-- 环境变量注入脚本 -->
-    <script>
-        // 创建全局环境变量对象
-        window.__ENV__ = window.__ENV__ || {};
 
-        // 注入服务器端环境变量 (将由服务器端替换)
-        // PASSWORD 变量将在这里被服务器端注入
-        window.__ENV__.PASSWORD = "{{PASSWORD}}";
-        window.__ENV__.TMDB_API_KEY = "{{TMDB_API_KEY}}";
-    </script>
 
     <!-- 版本检测脚本 -->
     <script src="js/version-check.js"></script>
