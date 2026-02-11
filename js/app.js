@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('yellowFilterEnabled', 'true');
         localStorage.setItem(PLAYER_CONFIG.adFilteringStorage, 'true');
 
-        // 默认启用豆瓣功能
-        localStorage.setItem('doubanEnabled', 'true');
+        // 默认启用 TMDB 功能
+        localStorage.setItem('tmdbEnabled', 'true');
 
         // 标记已初始化默认值
         localStorage.setItem('hasInitializedDefaults', 'true');
@@ -575,9 +575,9 @@ function resetSearchArea() {
         footer.style.position = '';
     }
 
-    // 如果有豆瓣功能，检查是否需要显示豆瓣推荐区域
-    if (typeof updateDoubanVisibility === 'function') {
-        updateDoubanVisibility();
+    // 如果有 TMDB 功能，检查是否需要显示推荐区域
+    if (typeof updateTMDBVisibility === 'function') {
+        updateTMDBVisibility();
     }
 
     // 重置URL为主页
@@ -642,7 +642,7 @@ async function search() {
 
         // 从所有选中的API源搜索
         let allResults = [];
-        const searchPromises = selectedAPIs.map(apiId => 
+        const searchPromises = selectedAPIs.map(apiId =>
             searchByAPIAndKeyWord(apiId, query)
         );
 
@@ -661,7 +661,7 @@ async function search() {
             // 首先按照视频名称排序
             const nameCompare = (a.vod_name || '').localeCompare(b.vod_name || '');
             if (nameCompare !== 0) return nameCompare;
-            
+
             // 如果名称相同，则按照来源排序
             return (a.source_name || '').localeCompare(b.source_name || '');
         });
@@ -677,10 +677,10 @@ async function search() {
         document.getElementById('searchArea').classList.add('mb-8');
         document.getElementById('resultsArea').classList.remove('hidden');
 
-        // 隐藏豆瓣推荐区域（如果存在）
-        const doubanArea = document.getElementById('doubanArea');
-        if (doubanArea) {
-            doubanArea.classList.add('hidden');
+        // 隐藏 TMDB 推荐区域（如果存在）
+        const tmdbArea = document.getElementById('tmdbArea');
+        if (tmdbArea) {
+            tmdbArea.classList.add('hidden');
         }
 
         const resultsDiv = document.getElementById('results');
@@ -1031,9 +1031,9 @@ function showVideoPlayer(url) {
     if (detailModal) {
         detailModal.classList.add('hidden');
     }
-    // 临时隐藏搜索结果和豆瓣区域，防止高度超出播放器而出现滚动条
+    // 临时隐藏搜索结果和 TMDB 区域，防止高度超出播放器而出现滚动条
     document.getElementById('resultsArea').classList.add('hidden');
-    document.getElementById('doubanArea').classList.add('hidden');
+    document.getElementById('tmdbArea').classList.add('hidden');
     // 在框架中打开播放页面
     videoPlayerFrame = document.createElement('iframe');
     videoPlayerFrame.id = 'VideoPlayerFrame';
@@ -1056,9 +1056,9 @@ function closeVideoPlayer(home = false) {
         if (detailModal) {
             detailModal.classList.add('hidden');
         }
-        // 如果启用豆瓣区域则显示豆瓣区域
-        if (localStorage.getItem('doubanEnabled') === 'true') {
-            document.getElementById('doubanArea').classList.remove('hidden');
+        // 如果启用 TMDB 区域则显示 TMDB 区域
+        if (localStorage.getItem('tmdbEnabled') === 'true') {
+            document.getElementById('tmdbArea').classList.remove('hidden');
         }
     }
     if (home) {
@@ -1302,7 +1302,7 @@ async function exportConfig() {
         'customAPIs',
         'yellowFilterEnabled',
         'adFilteringEnabled',
-        'doubanEnabled',
+        'tmdbEnabled',
         'hasInitializedDefaults'
     ];
 

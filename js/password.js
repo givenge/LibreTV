@@ -7,7 +7,7 @@
 function isPasswordProtected() {
     // 只检查普通密码
     const pwd = window.__ENV__ && window.__ENV__.PASSWORD;
-    
+
     // 检查普通密码是否有效
     return typeof pwd === 'string' && pwd.length === 64 && !/^0+$/.test(pwd);
 }
@@ -112,8 +112,8 @@ async function sha256(message) {
 function showPasswordModal() {
     const passwordModal = document.getElementById('passwordModal');
     if (passwordModal) {
-        // 防止出现豆瓣区域滚动条
-        document.getElementById('doubanArea').classList.add('hidden');
+        // 防止出现 TMDB 区域滚动条
+        document.getElementById('tmdbArea').classList.add('hidden');
         document.getElementById('passwordCancelBtn').classList.add('hidden');
 
         // 检查是否需要强制设置密码
@@ -123,7 +123,7 @@ function showPasswordModal() {
             const description = passwordModal.querySelector('p');
             if (title) title.textContent = '需要设置密码';
             if (description) description.textContent = '请先在部署平台设置 PASSWORD 环境变量来保护您的实例';
-            
+
             // 隐藏密码输入框和提交按钮，只显示提示信息
             const form = passwordModal.querySelector('form');
             const errorMsg = document.getElementById('passwordError');
@@ -139,7 +139,7 @@ function showPasswordModal() {
             const description = passwordModal.querySelector('p');
             if (title) title.textContent = '访问验证';
             if (description) description.textContent = '请输入密码继续访问';
-            
+
             const form = passwordModal.querySelector('form');
             if (form) form.style.display = 'block';
         }
@@ -174,10 +174,12 @@ function hidePasswordModal() {
 
         passwordModal.style.display = 'none';
 
-        // 如果启用豆瓣区域则显示豆瓣区域
-        if (localStorage.getItem('doubanEnabled') === 'true') {
-            document.getElementById('doubanArea').classList.remove('hidden');
-            initDouban();
+        // 如果启用 TMDB 区域则显示 TMDB 区域
+        if (localStorage.getItem('tmdbEnabled') === 'true') {
+            document.getElementById('tmdbArea').classList.remove('hidden');
+            if (typeof initTMDB === 'function') {
+                initTMDB();
+            }
         }
     }
 }
@@ -231,7 +233,7 @@ function initPasswordProtection() {
         showPasswordModal();
         return;
     }
-    
+
     // 如果设置了密码但用户未验证，显示密码输入框
     if (isPasswordProtected() && !isPasswordVerified()) {
         showPasswordModal();

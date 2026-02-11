@@ -1,5 +1,6 @@
 // 全局常量配置
 const PROXY_URL = '/proxy/';    // 适用于 Cloudflare, Netlify (带重写), Vercel (带重写)
+window.PROXY_URL = PROXY_URL;
 // const HOPLAYER_URL = 'https://hoplayer.com/index.html';
 const SEARCH_HISTORY_KEY = 'videoSearchHistory';
 const MAX_HISTORY_ITEMS = 5;
@@ -25,7 +26,7 @@ const API_SITES = {
     dyttzy: {
         api: 'http://caiji.dyttzyapi.com/api.php/provide/vod',
         name: '电影天堂资源',
-        detail: 'http://caiji.dyttzyapi.com', 
+        detail: 'http://caiji.dyttzyapi.com',
     },
     ruyi: {
         api: 'https://cj.rycjapi.com/api.php/provide/vod',
@@ -46,12 +47,12 @@ const API_SITES = {
     ffzy: {
         api: 'http://ffzy5.tv/api.php/provide/vod',
         name: '非凡影视',
-        detail: 'http://ffzy5.tv', 
+        detail: 'http://ffzy5.tv',
     },
     heimuer: {
         api: 'https://json.heimuer.xyz/api.php/provide/vod',
         name: '黑木耳',
-        detail: 'https://heimuer.tv', 
+        detail: 'https://heimuer.tv',
     },
     zy360: {
         api: 'https://360zy.com/api.php/provide/vod',
@@ -64,7 +65,7 @@ const API_SITES = {
     wolong: {
         api: 'https://wolongzyw.com/api.php/provide/vod',
         name: '卧龙资源',
-    }, 
+    },
     hwba: {
         api: 'https://cjhwba.com/api.php/provide/vod',
         name: '华为吧资源',
@@ -72,7 +73,7 @@ const API_SITES = {
     jisu: {
         api: 'https://jszyapi.com/api.php/provide/vod',
         name: '极速资源',
-        detail: 'https://jszyapi.com', 
+        detail: 'https://jszyapi.com',
     },
     dbzy: {
         api: 'https://dbzy.tv/api.php/provide/vod',
@@ -205,5 +206,16 @@ const CUSTOM_API_CONFIG = {
     adultPropName: 'isAdult' // 用于标记成人内容的属性名
 };
 
+// TMDB 配置
+const TMDB_CONFIG = {
+    API_KEY: (window.__ENV__ && window.__ENV__.TMDB_API_KEY),
+    BASE_URL: 'https://api.themoviedb.org/3',
+    IMAGE_BASE_URL: 'https://image.tmdb.org/t/p/w500',
+    LANGUAGE: 'zh-CN'
+};
+
 // 隐藏内置黄色采集站API的变量
 const HIDE_BUILTIN_ADULT_APIS = false;
+
+// 暴露 TMDB 配置到全局
+window.TMDB_CONFIG = TMDB_CONFIG;
